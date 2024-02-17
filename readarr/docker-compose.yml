@@ -1,0 +1,18 @@
+services:
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./config:/config
+      - /mnt/storage/_Dump/Audiobooks/:/books
+    ports:
+      - 8787:8787
+    restart: unless-stopped
+
+networks:
+  mediaserver:
+    external: true

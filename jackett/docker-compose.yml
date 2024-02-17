@@ -1,0 +1,18 @@
+services:
+  jackett:
+    image: ghcr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./config:/config
+    ports:
+      - 9117:9117
+    networks:
+      - mediaserver
+    restart: unless-stopped
+
+networks:
+  mediaserver:
+    external: true

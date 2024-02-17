@@ -1,0 +1,25 @@
+services:
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    hostname: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./config:/config
+      - /mnt/storage/Media/:/mnt/storage/Media/
+      - /mnt/storage/Downloads/:/mnt/storage/Downloads/
+    ports:
+      - 7878:7878
+    networks:
+      - mediaserver
+    depends_on:
+      - prowlarr
+      - transmission
+    restart: unless-stopped
+
+networks:
+  mediaserver:
+    external: true

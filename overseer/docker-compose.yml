@@ -1,0 +1,19 @@
+services:
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Edmonton
+    volumes:
+      - ./config:/config
+    ports:
+      - 5000:5055
+    networks:
+      - mediaserver
+    restart: unless-stopped
+
+networks:
+  mediaserver:
+    external: true

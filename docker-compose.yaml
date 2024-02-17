@@ -1,0 +1,23 @@
+# Conversion to Modular Configuration
+include:
+  - path: transmission/docker-compose.yml
+  - path: prowlarr/docker-compose.yml
+  - path: jackett/docker-compose.yml
+  - path: nginx/docker-compose.yml
+  # Main services
+  - path: sonarr/docker-compose.yml
+  - path: radarr/docker-compose.yml
+  - path: overseer/docker-compose.yml
+  - path: bazarr/docker-compose.yml
+  # Enablement Services
+  - path: tautulli/docker-compose.yml
+  - path: cross-seed/docker-compose.yml
+  - path: recyclarr/docker-compose.yml
+
+
+  #- path: audiobookshelf/docker-compose.yml
+  #- path: readarr/docker-compose.yml
+
+networks:
+  mediaserver:
+    external: true

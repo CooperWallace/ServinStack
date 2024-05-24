@@ -11,6 +11,8 @@ services:
       - ./config/prowlarr:/config
     ports:
       - 9696:9696
+    networks:
+      - mediaserver
     restart: unless-stopped
 
   # Jackett is still used ass some indexers have issues on Prowlarr
@@ -24,6 +26,8 @@ services:
       - ./config/jackett:/config
     ports:
       - 9117:9117
+    networks:
+      - mediaserver
     restart: unless-stopped
 
 
@@ -65,6 +69,8 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
     env_file:
       - proton.env
+    networks:
+      - mediaserver
 
         #  audiobookshelf:
         #    image: ghcr.io/advplyr/audiobookshelf:latest
@@ -91,6 +97,8 @@ services:
       - seccomp:unconfined
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
+    networks:
+      - mediaserver
 
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
@@ -103,6 +111,8 @@ services:
       - ./config/overseerr/:/config
     ports:
       - 5000:5055
+    networks:
+      - mediaserver
     restart: unless-stopped
 
 #Automation Services
@@ -122,6 +132,8 @@ services:
     depends_on:
       - prowlarr
       - transmission
+    networks:
+      - mediaserver
     restart: unless-stopped
 
   radarr:
@@ -138,6 +150,8 @@ services:
       - /mnt/storage/Downloads/:/mnt/storage/Downloads/
     ports:
       - 7878:7878
+    networks:
+      - mediaserver
     depends_on:
       - prowlarr
       - transmission
@@ -171,6 +185,18 @@ services:
       #    ports:
       #      - 8787:8787
       #    restart: unless-stopped
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./config/tautulli/:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
 
   cross-seed:
     image: crossseed/cross-seed
@@ -184,4 +210,10 @@ services:
       - transmission
     ports:
       - 2468:2468
+    networks:
+      - mediaserver
     command: daemon
+
+networks:
+  mediaserver:
+    external: true

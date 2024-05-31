@@ -214,6 +214,16 @@ services:
       - mediaserver
     command: daemon
 
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    user: 1000:1000
+    volumes:
+      - ./config/recyclarr:/config
+    networks:
+      - mediaserver
+
+
 networks:
   mediaserver:
     external: true

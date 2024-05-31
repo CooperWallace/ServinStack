@@ -197,6 +197,8 @@ services:
     ports:
       - 8181:8181
     restart: unless-stopped
+    networks:
+      - mediaserver
 
   cross-seed:
     image: crossseed/cross-seed

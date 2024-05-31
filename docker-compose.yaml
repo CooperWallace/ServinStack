@@ -48,8 +48,6 @@ services:
       - TRANSMISSION_RATIO_LIMIT=0
       - TRANSMISSION_RATIO_LIMIT_ENABLED=true
       - TRANSMISSION_UTP_ENABLED=false
-      - TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED=true
-      - TRANSMISSION_SCRIPT_TORRENT_DONE_FILENAME="/config/transmission-home/transmission-cross-seed.sh"
       - TRANSMISSION_BLOCKLIST_ENABLED=true
       - TRANSMISSION_BLOCKLIST_URL=https://github.com/Naunter/BT_BlockLists/raw/master/bt_blocklists.gz
       - WEBPROXY_ENABLED=false

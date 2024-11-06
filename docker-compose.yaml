@@ -21,3 +21,5 @@ include:
 networks:
   mediaserver:
     external: true
+  outbound:
+    external: true

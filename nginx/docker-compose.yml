@@ -1,22 +1,27 @@
 services:
-# External App
-  nginx:
-    build: ../Nginx
-    container_name: nginx
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
     ports:
-      - 5055:5055
-    restart: always
-    volumes:
-      - ./config/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./logs/nginx/logs/:/logs/
-      - ./logs/nginx/var:/var/log/nginx
-    security_opt:
-      - seccomp:unconfined
-    sysctls:
-      - net.ipv6.conf.all.disable_ipv6=0
-    networks:
-      - mediaserver
+      # These ports are in format <host-port>:<container-port>
+      - '5055:80' # Public HTTP Port
+      #      - '443:443' # Public HTTPS Port
+      - '5056:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
 
-networks:
-  mediaserver:
-    external: true
+    # Uncomment the next line if you uncomment anything in the section
+    # environment:
+      # Uncomment this if you want to change the location of
+      # the SQLite DB file within the container
+      # DB_SQLITE_FILE: "/data/database.sqlite"
+
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+      - ./nginx-ultimate-bad-bot-blocker/conf.d/botblocker-nginx-settings.conf:/etc/nginx/conf.d/botblocker-nginx-settings.conf
+      - ./nginx-ultimate-bad-bot-blocker/conf.d/globalblacklist.conf:/etc/nginx/conf.d/globalblacklist.conf
+      - ./nginx-ultimate-bad-bot-blocker/bots.d:/etc/nginx/bots.d
